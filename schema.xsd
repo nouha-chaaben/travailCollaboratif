@@ -25,5 +25,125 @@
     </xsd:complexType>
   </xsd:element>
   
+  <xsd:attribute name="abr">
+    <xsd:simpleType>
+    <xsd:restriction base="xsd:string">
+          <xsd:pattern value="[A-Z][A-Z]+"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:attribute>
+  
+ <xsd:attribute name="ID" type="xsd:ID"/>
+ 
+   <xsd:attribute name="regime">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="M"/>
+        <xsd:enumeration value="CC"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:attribute>  
+  
+   
+    
+  <xsd:attribute name="coefficient">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:float">
+        <xsd:minInclusive value="1"/>
+        <xsd:maxInclusive value="3"/>
+      </xsd:restriction>
+    </xsd:simpleType> 
+  </xsd:attribute>
+  
+  <xsd:attribute name="credits">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:integer">
+        <xsd:minInclusive value="1"/>
+        <xsd:maxInclusive value="6"/>
+      </xsd:restriction>
+  </xsd:simpleType>  
+  </xsd:attribute>
+  
+  <xsd:element name="matiere">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="nom"/>
+        <xsd:choice>
+          <xsd:element ref="CI"/>
+          <xsd:element ref="autres"/>
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute ref="regime" use="required"/>
+      <xsd:attribute ref="coefficient" use="required"/>
+      <xsd:attribute ref="credits" use="required"/>
+    </xsd:complexType>  
+  </xsd:element> 
+   
+  <xsd:simpleType name="Typunite">
+  <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="Ob"/>
+        <xsd:enumeration value="Tr"/>
+        <xsd:enumeration value="Op"/>
+      </xsd:restriction>
+  </xsd:simpleType>  
+  
+  <xsd:element name="unite_enseignement">
+    <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="nom"/>
+          <xsd:element ref="matiere" minOccurs="1" maxOccurs="3"/>
+        </xsd:sequence>
+        <xsd:attribute ref="ID" use="required"/>
+        <xsd:attribute name="type" type="Typunite" use="required"/>
+        <xsd:attribute ref="coefficient" use="required"/>
+        <xsd:attribute ref="credits" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:simpleType name="Typfiliere">
+  <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="L"/>
+        <xsd:enumeration value="M"/>
+      </xsd:restriction>
+  </xsd:simpleType>  
+  
+ 
+  
+  
+  <xsd:element name="semestre">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="unite_enseignement" minOccurs="1" maxOccurs="7"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="niveau">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="semestre" minOccurs="2" maxOccurs="2"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name="filiere">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="nom"/>
+        <xsd:element ref="niveau" minOccurs="2" maxOccurs="3"/>
+      </xsd:sequence>
+      <xsd:attribute ref="abr" use="required"/>
+      <xsd:attribute name="type" type="Typfiliere" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="institution">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="filiere" maxOccurs="100"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
   
 </xsd:schema>
